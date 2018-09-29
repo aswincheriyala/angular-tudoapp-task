@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Http } from '@angular/http';
+import { TodoService } from '../todo.service';
 @Component({
   selector: 'app-insert',
   templateUrl: './insert.component.html',
@@ -9,17 +9,19 @@ export class InsertComponent {
   count;
   posts: any[]
   flag=true;
-  private url = 'http://localhost:6030/api/todo';
-  constructor(private http: Http) {
+
+  constructor(private service:TodoService) {
+    
     this.all();
-    this.http.get(this.url + '/0')                                        ////update and get data
+
+    this.service.get('/0')                                        ////update and get data
       .subscribe(response => {
         this.count = response.json().length;
       })
   }
   createPost(input: HTMLInputElement) {
     let post = { title: input.value, status: 0 }
-    this.http.post(this.url, post)            /////Create data
+    this.service.post(post)            /////Create data
       .subscribe(response => {
         this.posts.push(response.json())
         console.log(response.json())
@@ -34,7 +36,7 @@ export class InsertComponent {
       this.count--;
     }
     console.log(post);
-    this.http.delete(this.url + '/' + post.todo_id).subscribe(response => {
+    this.service.delete('/'+post.todo_id).subscribe(response => {
       let index = this.posts.indexOf(post);
       this.posts.splice(index, 1);
       console.log(response)
@@ -46,7 +48,7 @@ export class InsertComponent {
     if (post.status == 0) {
       this.count--;
       console.log('status changing to 0');
-      this.http.patch(this.url + '/' + post.todo_id, { status: 1 }).subscribe(response => {                                 //////Updatedata
+      this.service.patch(post.todo_id, ({ status: 1 })).subscribe(response => {                                 //////Updatedata
         console.log(response.json())
         this.all();
       });
@@ -54,7 +56,7 @@ export class InsertComponent {
     if (post.status == 1) {
       this.count++;
       console.log('status changing to 1');
-      this.http.patch(this.url + '/' + post.todo_id, { status: 0 }).subscribe(response => {                                 //////Updatedata
+      this.service.patch(post.todo_id, ({ status: 0 })).subscribe(response => {                                 //////Updatedata
         console.log(response.json())
         this.all();
       });
@@ -63,7 +65,7 @@ export class InsertComponent {
   }
 
   all() {
-    this.http.get(this.url)                                        ////update and get data
+    this.service.get('')                                        ////update and get data
       .subscribe(response => {
         this.posts = response.json();
         console.log(response.json())
@@ -71,14 +73,14 @@ export class InsertComponent {
   }
 
   active() {
-    this.http.get(this.url + '/0')                                        ////update and get data
+    this.service.get('/0')                                        ////update and get data
       .subscribe(response => {
         this.posts = response.json();
         console.log(response.json())
       })
   }
   complete() {
-    this.http.get(this.url + '/1')                                        ////update and get data
+    this.service.get('/1')                                        ////update and get data
       .subscribe(response => {
         this.posts = response.json();
         console.log(response.json())
@@ -86,8 +88,8 @@ export class InsertComponent {
   }
 
   clearcompleted() {
-    this.http.delete(this.url + '/id/1').subscribe(response => {
-      this.http.get(this.url)                                        ////update and get data
+    this.service.delete('/id/1').subscribe(response => {
+      this.service.get('')                                        ////update and get data
         .subscribe(response => {
           this.posts = response.json();
           console.log(response.json())
@@ -101,7 +103,7 @@ export class InsertComponent {
   }
 
   edit(post){
-    this.http.patch(this.url + '/' + post.todo_id, { title: post.title , status:post.status}).subscribe(response => {                                 //////Updatedata
+    this.service.patch('/' + post.todo_id, ({ title: post.title , status:post.status})).subscribe(response => {                                 //////Updatedata
       console.log(response.json())
       this.all();
     });
