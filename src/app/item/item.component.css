@@ -1,0 +1,13 @@
+.strike-through{
+    text-decoration: line-through !important;
+  }
+  input:focus{
+    background-color: rgb(231, 227, 222)
+  }
+  a{
+    padding-left: 30px;
+    font-size: 40px;
+  }
+  input{
+    padding-left: 30px;
+  }

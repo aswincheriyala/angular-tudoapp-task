@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+
+  <title>Training</title>
+</head>
+
+<body>
+  <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 740px; position: absolute;top: 30px;bottom: 0;left: 0;right: 0;margin: auto; ">
+
+    <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 720px; position: absolute;top: 0px;bottom: 0;left: 0;right: 0;margin: auto; ">
+      <div style="text-align:center;" >
+        <h1>todos</h1>
+      </div>
+      <div class="shadow-lg p-3 mb-5 bg-white rounded" style="width: 700px; position: absolute;top: 80px;bottom: 0;left: 0;right: 0;margin: auto;">
+
+        <input type="text" class="form-control" (keyup.enter)="createPost(title)" #title style="height: 65px; font-size: 30px; border-color: rgb(136, 117, 153);"><br>
+        <ul class="list-group">
+          <li *ngFor="let post of posts;index as i;" class="list-group-item data">
+           
+            <input type="checkbox" (click)="updatePost(post)" class="checkss" [checked]="post.status===1">                         
+            
+
+
+
+          <item 
+            [post]='post' 
+            [i]='i'  
+            [flag]='flag'
+            (changeName)="edit(post)"
+            (changeTog)="togle(i)" 
+            >
+          </item>
+
+
+
+
+
+            <span class="close" (click)="deletePost(post)">X</span>
+          
+          </li>
+        </ul>        
+        <br>
+        <button type="button" class="btn btn-outline-secondary"  (click)="all()">All</button>
+        <button type="button" class="btn btn-outline-secondary"  (click)="active()">Active</button>
+        <button type="button" class="btn btn-outline-secondary"  (click)="complete()">Complete</button>
+        <button type="button" class="btn btn-outline-secondary"  (click)="clearcompleted()">Clear Completed</button>
+        <div class="count text-center">{{count}} items remaining</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

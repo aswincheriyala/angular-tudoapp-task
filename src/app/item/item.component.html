@@ -1,0 +1,10 @@
+<a  [class.strike-through]="post.status===1" 
+(click)="togChange()" 
+*ngIf="!post.flag">{{post.title}}</a>
+
+<input appFocus
+(focusout)="nameChange()" 
+(keyup.enter)="nameChange()" 
+[(ngModel)]='post.title' 
+*ngIf="post.flag" 
+type="text">
